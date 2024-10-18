@@ -87,13 +87,19 @@ VALUES
 		(4, 'Karube Daikiche', 'Early 30s', 'Male', 'Bar Owner'),
 		(5, 'Matsushita Enji', 'Late 30s', 'Male', 'Hypnotherapist'),
         (6, 'Kyuma Ginji', 'Late 20s', 'Male', 'Musician'),
-        (7, 'Hikari Kuina', 'Mid 20s', 'Female', 'Apparels Clerk')
+        (7, 'Hikari Kuina', 'Mid 20s', 'Female', 'Apparels Clerk'),
+        (8, 'Ippei Oki', 'Late Teens', 'Male', 'High School Student'),
+        (9, 'Keiichi Tatta', 'Early 50s', 'Male', 'Lawyer'),
+        (10, 'Kodai Tatta', 'Mid 20s', 'Male', 'Freeter'),
+        (11, 'Mira Kano', 'Mid 20s', 'Female', 'Psychiatrist'),
+        (12, 'Momoka Inoue', 'Late Teens', 'Female', 'High School Student');
+
 
 INSERT INTO game (game_id, game_master_id, objective, card_type, difficulty, player_count, survivor_count, game_date)
 VALUES 
 (1, NULL, 'A massive geyser, full of boiling water, erupts and destroys the stadium. It is Game Clear if the players can escape the venue before it is destroyed. It is Game Over if all players die or if the venue fully collapses before they escape.', 'Seven of Spades', '4/5', '17', '6', '2020-10-10'),
 (2, NULL, 'Players must survive against the King of Spades, who is armed with an assault rifle, pistol and knife. It is a GAME CLEAR for any players who outlive the King of Spades. It is a GAME OVER for any players who are killed by the King. Only the one who defeats the king will get their visa extended.', 'King of Spades', '5/5', '253', '1', '2020-10-14'),
-(3, NULL, 'The player must select a number from the grid. Once all numbers are selected, the average will be calculated, then multiplied by 0.8. The player closest to the number wins the round. The other players each lose a point. A scale above their heads will fill with sulfuric acid. If a player reaches -10 points, it is a GAME OVER for that player; their scale will overflow and dump the acid on them.It is GAME CLEAR for the last remaining player.', 'King of Diamonds', '5/5', '5', '1', '2020-10-14'),
+(3, 6, 'The player must select a number from the grid. Once all numbers are selected, the average will be calculated, then multiplied by 0.8. The player closest to the number wins the round. The other players each lose a point. A scale above their heads will fill with sulfuric acid. If a player reaches -10 points, it is a GAME OVER for that player; their scale will overflow and dump the acid on them.It is GAME CLEAR for the last remaining player.', 'King of Diamonds', '5/5', '5', '1', '2020-10-14'),
 (4, NULL, 'There are two doors in each room, one marked "Live" and the other marked "Death". One door leads to another room, and the other one will lead to death. It is GAME CLEAR for a player if they exit the building safely within the time limit. It is GAME OVER for a player if they enter the wrong room or run out of time.', 'Three of Clubs', '1/5', '5', '4', '2020-09-06'),
 (5, NULL, 'One player becomes the wolf, and the remaining three become sheep. The wolf shall try to avoid the gaze of the sheep. If the wolf has eye contact with a sheep, the sensor reacts and the sheep becomes the wolf. Once the time limit is reached, the collar around all the sheep will explode.', 'Seven of Hearts', '3/5', '4', '1', '2020-09-08'),
 (6, 1, 'Each round, all players must enter a cell and announce the mark that they think is on the back of their collar. If they’re correct, they move onto the next round. Their mark changes, and the cycle repeats. If the player remains silent or says the wrong mark, the collar explodes. Among the players is the Jack of Hearts. When the Jack of Hearts dies, the remaining players all survive and the game is cleared. Game Clear: Kill the Jack of Hearts Game Over: Say the wrong mark.', 'Jack of Hearts', '5/5', '20', '1', '2020-09-20'),
@@ -102,15 +108,19 @@ VALUES
 (9, 1, 'In the Ten of Hearts game, players must identify and execute the "witch" responsible for a murder among them. If the witch is not correctly identified, everyone will die. The game emphasizes mistrust and paranoia as players turn on each other.', 'Ten of Hearts', '4/5', '67', '5', '2020-10-05'),
 (10, NULL, 'Players must defend themselves against the Jack of Spades and his crew in a physical brawl. It is GAME OVER if the player dies or succumbs to their wounds. It is GAME CLEAR if the players successfully defeat the Jack of Spades and his crew.', '4/5', 'Unknown', 'Unknown', '2020-10-06'),
 (11, NULL, 'In the Queen of Clubs game, players must work together to compete against the Queen in a series of tasks that challenge cooperation and strategy. It is a Game Clear if the players accumulate more points than the Queen by the end of the game. It is a Game Over if the Queen outperforms the players or if the team’s cooperation collapses, leading to their defeat.', '5/5', '16', '9', '2020-10-26'),
-(12, 5, 'It is GAME CLEAR if a player finds and touches the "safe zone" within the time limit. It is GAME OVER if the time limit is reached or if the "Oni" kills all the players.', 11, 4, '2020-09-10')
+(12, 5, 'It is GAME CLEAR if a player finds and touches the "safe zone" within the time limit. It is GAME OVER if the time limit is reached or if the "Oni" kills all the players.', 11, 4, '2020-09-10'),
+(13, 11, 'Experience psychological torture over a game of croquette', 'Queen of Hearts', 2, 2, '2020-10-29'),
+
 
 INSERT INTO game_master (game_master_id, game_id, master_role, player_id)
 VALUES
 (1, 6, 'Jack of Spades', 5),
 (2, 7, 'King of Spades', 6),
-(3, 9, 'Ten of Hearts', 14)
-(4, 11, 'Queen of Clubs', NULL)
-(5, 12, 'Five of Spades', NULL)
+(3, 9, 'Ten of Hearts', 14),
+(4, 11, 'Queen of Clubs', NULL),
+(5, 12, 'Five of Spades', NULL),
+(6, 3, 'King of Diamonds', 9),
+(7, 13, 'Queen of Spades', 11),
 
 
 INSERT INTO location (location_id, location_name, location_type, time_limit, hazard, game_id)
@@ -125,8 +135,9 @@ VALUES
 (8, 'Indoor Facility', 'Indoor', '1 Hour', 'Mental Puzzle', 7),
 (9, 'The Beach Hotel', 'Indoor', '2 Hours', 'Paranoia and Mistrust', 9),
 (10, 'Exhibition Hallway', 'Indoor', 'None', 'Physical Combat', 10),
-(11, 'Large Indoor Arena', 'Indoor', 'None', 'Dodging balls thrown by opponents', 11);
-(12, 'Tall Apartment Complex', 'Outdoor and Indoor', '20 Minutes', 'Escaping the threat', 12)
+(11, 'Large Indoor Arena', 'Indoor', 'None', 'Dodging balls thrown by opponents', 11),
+(12, 'Tall Apartment Complex', 'Outdoor and Indoor', '20 Minutes', 'Escaping the threat', 12),
+(13, 'Rooftop Garden', 'Outdoor', 'None', 'Defeat the Queen of Spades', 13),
 
 INSERT INTO player_game (player_game_id, player_role, visa_change, outcome, player_id, game_id)
 VALUES 
@@ -143,6 +154,12 @@ VALUES
 (11, 'Identify the witch within the time limit', '10 Days', 'Survived', 7, 9),
 (12, 'Defeat jack of spades and his crew', '10 Days', 'Survived', 7, 10),
 (13, 'Win at dodgeball while balancing over a pit', '7 Days', 7, 11),
+(14, 'Name the correct symbol on the back of the collar', '0', 'Died', 8, 6),
+(15, 'Strategy, psychology and mathematics', '0 Days', 'Died', 9, 3),
+(16, 'Assist in solving the electrical problem','3 Days','Survived', 10, 7),
+(17, 'Find the witch', '10 Days', 'Survived', 11, 9),
+(18, 'Find the witch', '0 Days', 'Died', 12, 13);
+
 
 INSERT INTO player_status (status_id, death, date_updated, player_id)
 VALUES 
@@ -159,9 +176,15 @@ VALUES
 (11, '0', '2020-10-05', 7),
 (12, '0', '2020-09-24', 7),
 (13, '0', '2020-10-06', 7),
-(14, '0', ''2020-10-26'),
-(15, '1','2020-10-27');
-
+(14, '0', ''2020-10-26', 7),
+(15, '1','2020-10-27', 7),
+(16, '1', '2020-09-20', 8),
+(17, '1', '2020-10-14', 9),
+(18, '0', '2020-09-24', 10),
+(19, '1', '2020-10-26', 10),
+(10, '0', '2020-10-05', '11'),
+(11, '1', '2020-10-29', '11'),
+(12, '1', '2020-10-14', '12');
 
 
 INSERT INTO death_log (death_log_id, death_reason, date, player_id)
@@ -170,15 +193,17 @@ VALUES
 (2, 'Killed by sulfuric acid', '2020-10-14', 2),
 (3, 'Killed by running out of time', '2020-09-08', 3),
 (5, 'Killed by running out of time', '2020-09-08', 4),
-(6, 'Killed by saying the wrong mark on the back of his collar', '2020-09-20', 5);
-(7, 'Killed by exchanging points at the final moment', '2020-09-24', 6);
-(8, 'Killed by being stabbed by the king of spades', '2020-10-27', 8);
-
-
+(6, 'Killed by saying the wrong mark on the back of his collar', '2020-09-20', 5),
+(7, 'Killed by exchanging points at the final moment', '2020-09-24', 6),
+(8, 'Killed by being stabbed by the king of spades', '2020-10-27', 8),
+(9, 'Killed by sacrificing himself for another player', '2020-10-14', 9),
+(10, 'Killed by being defeated by the king of spades', '2020-10-26', 10),
+(11, 'Killed by being defeated in croquette', '2020-10-29', 11),
+(12, 'Killed through self-sacrifce', '2020-10-14', 12);
 
 
 INSERT INTO injury_log (injury_id, injury_date, injury_type, severity, player_id)
 VALUES 
 (1, '2020-10-15', 'Gunshot Wound', 'Severe', 1),
 (2, '2020-09-06', 'Severe burn on leg', 'Inconvenient', 3),
-(3, '2020-09-24', 'Knocked out', 'Moderate', 7)
+(3, '2020-09-24', 'Knocked out', 'Moderate', 7),
