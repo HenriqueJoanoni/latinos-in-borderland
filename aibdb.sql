@@ -102,6 +102,7 @@ VALUES
 (9, 1, 'In the Ten of Hearts game, players must identify and execute the "witch" responsible for a murder among them. If the witch is not correctly identified, everyone will die. The game emphasizes mistrust and paranoia as players turn on each other.', 'Ten of Hearts', '4/5', '67', '5', '2020-10-05'),
 (10, NULL, 'Players must defend themselves against the Jack of Spades and his crew in a physical brawl. It is GAME OVER if the player dies or succumbs to their wounds. It is GAME CLEAR if the players successfully defeat the Jack of Spades and his crew.', '4/5', 'Unknown', 'Unknown', '2020-10-06'),
 (11, NULL, 'In the Queen of Clubs game, players must work together to compete against the Queen in a series of tasks that challenge cooperation and strategy. It is a Game Clear if the players accumulate more points than the Queen by the end of the game. It is a Game Over if the Queen outperforms the players or if the team’s cooperation collapses, leading to their defeat.', '5/5', '16', '9', '2020-10-26'),
+(12, 5, 'It is GAME CLEAR if a player finds and touches the "safe zone" within the time limit. It is GAME OVER if the time limit is reached or if the "Oni" kills all the players.', 11, 4, '2020-09-10')
 
 INSERT INTO game_master (game_master_id, game_id, master_role, player_id)
 VALUES
@@ -109,6 +110,7 @@ VALUES
 (2, 7, 'King of Spades', 6),
 (3, 9, 'Ten of Hearts', 14)
 (4, 11, 'Queen of Clubs', NULL)
+(5, 12, 'Five of Spades', NULL)
 
 
 INSERT INTO location (location_id, location_name, location_type, time_limit, hazard, game_id)
@@ -124,7 +126,7 @@ VALUES
 (9, 'The Beach Hotel', 'Indoor', '2 Hours', 'Paranoia and Mistrust', 9),
 (10, 'Exhibition Hallway', 'Indoor', 'None', 'Physical Combat', 10),
 (11, 'Large Indoor Arena', 'Indoor', 'None', 'Dodging balls thrown by opponents', 11);
-
+(12, 'Tall Apartment Complex', 'Outdoor and Indoor', '20 Minutes', 'Escaping the threat', 12)
 
 INSERT INTO player_game (player_game_id, player_role, visa_change, outcome, player_id, game_id)
 VALUES 
@@ -140,7 +142,7 @@ VALUES
 (10, 'Solve the electrical problem before the electrocution', '3 Days', 'Survived', 5, 7), 
 (11, 'Identify the witch within the time limit', '10 Days', 'Survived', 7, 9),
 (12, 'Defeat jack of spades and his crew', '10 Days', 'Survived', 7, 10),
-(13, 'Win at dodgeball while balancing over a pit', '7 Days')
+(13, 'Win at dodgeball while balancing over a pit', '7 Days', 7, 11),
 
 INSERT INTO player_status (status_id, death, date_updated, player_id)
 VALUES 
@@ -157,7 +159,8 @@ VALUES
 (11, '0', '2020-10-05', 7),
 (12, '0', '2020-09-24', 7),
 (13, '0', '2020-10-06', 7),
-(14, '0', '2020-')
+(14, '0', ''2020-10-26'),
+(15, '1','2020-10-27');
 
 
 
@@ -169,7 +172,7 @@ VALUES
 (5, 'Killed by running out of time', '2020-09-08', 4),
 (6, 'Killed by saying the wrong mark on the back of his collar', '2020-09-20', 5);
 (7, 'Killed by exchanging points at the final moment', '2020-09-24', 6);
-
+(8, 'Killed by being stabbed by the king of spades', '2020-10-27', 8);
 
 
 
