@@ -2,14 +2,16 @@ package model;
 
 public class PlayerStatus {
     private int statusId;
+    private int injury;
     private String death;
-    private String dateUpdated;
+    private int gameId;
     private int playerId;
 
-    public PlayerStatus(int statusId, String death, String dateUpdated, int playerId) {
+    public PlayerStatus(int statusId, int injury, String death, int gameId, int playerId) {
         this.statusId = statusId;
+        this.injury = injury;
         this.death = death;
-        this.dateUpdated = dateUpdated;
+        this.gameId = gameId;
         this.playerId = playerId;
     }
 
@@ -21,6 +23,14 @@ public class PlayerStatus {
         this.statusId = statusId;
     }
 
+    public int getInjury() {
+        return injury;
+    }
+
+    public void setInjury(int injury) {
+        this.injury = injury;
+    }
+
     public String getDeath() {
         return death;
     }
@@ -29,16 +39,16 @@ public class PlayerStatus {
         this.death = death;
     }
 
-    public String getDateUpdated() {
-        return dateUpdated;
-    }
-
-    public void setDateUpdated(String dateUpdated) {
-        this.dateUpdated = dateUpdated;
-    }
-
     public int getPlayerId() {
         return playerId;
+    }
+
+    public int getGameId() {
+        return gameId;
+    }
+
+    public void setGameId(int gameId) {
+        this.gameId = gameId;
     }
 
     public void setPlayerId(int playerId) {

@@ -3,14 +3,16 @@ package model;
 public class DeathLog {
     private int deathLogId;
     private String deathReason;
-    private String date;
+    private String dateUpdated;
     private int playerId;
+    private int gameId;
 
-    public DeathLog(int deathLogId, String deathReason, String date, int playerId) {
+    public DeathLog(int deathLogId, String deathReason, String date, int playerId, int gameId) {
         this.deathLogId = deathLogId;
         this.deathReason = deathReason;
-        this.date = date;
+        this.dateUpdated = date;
         this.playerId = playerId;
+        this.gameId = gameId;
     }
 
     public int getDeathLogId() {
@@ -29,12 +31,12 @@ public class DeathLog {
         this.deathReason = deathReason;
     }
 
-    public String getDate() {
-        return date;
+    public String getDateUpdated() {
+        return dateUpdated;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setDateUpdated(String dateUpdated) {
+        this.dateUpdated = dateUpdated;
     }
 
     public int getPlayerId() {
@@ -43,5 +45,13 @@ public class DeathLog {
 
     public void setPlayerId(int playerId) {
         this.playerId = playerId;
+    }
+
+    public int getGameId() {
+        return gameId;
+    }
+
+    public void setGameId(int gameId) {
+        this.gameId = gameId;
     }
 }

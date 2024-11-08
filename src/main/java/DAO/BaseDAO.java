@@ -20,8 +20,21 @@ public class BaseDAO {
         Connection conn = null;
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
+
+            if (jdbUrl == null || dbUser == null || dbPassword == null) {
+                throw new IllegalStateException("Database credentials are not set. Check your .env configuration.");
+            }
+
             conn = DriverManager.getConnection(jdbUrl, dbUser, dbPassword);
+            System.out.println("Database connection established successfully.");
+        } catch (ClassNotFoundException e) {
+            System.err.println("MySQL JDBC Driver not found. Include it in your library path.");
+            e.printStackTrace();
+        } catch (SQLException e) {
+            System.err.println("Failed to establish a database connection. Check the connection parameters.");
+            e.printStackTrace();
         } catch (Exception e) {
+            System.err.println("Unexpected error occurred while establishing database connection.");
             e.printStackTrace();
         }
         return conn;
