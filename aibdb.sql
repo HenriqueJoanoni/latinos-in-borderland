@@ -448,3 +448,59 @@ VALUES
 (6, 8, 'Severe Burns on Face and Body', 'HIGH SEVERITY', 21),
 (7, NULL, 'Gunshot Wound', 'HIGH SEVERITY', 21), /*THE INJURY IS NOT IN A GAME - DID NOT RECORD IN PLAYER_STATUS TABLE*/
 (8, NULL, 'Gunshot Wound', 'HIGH SEVERITY', 22); /*THE INJURY IS NOT IN A GAME - DID NOT RECORD IN PLAYER_STATUS TABLE*/
+
+/** TRIGGERS AND VIEWS */
+CREATE TRIGGER death_trigger
+    AFTER UPDATE
+    ON death_log
+    FOR EACH ROW
+BEGIN
+    INSERT INTO death_log (death_reason, "date", player_id)
+    VALUES('REASON FOR DEATH','20/10/2024',7);
+END;
+
+CREATE TRIGGER visa_trigger
+    AFTER UPDATE
+    ON player_game
+    FOR EACH ROW
+BEGIN
+    INSERT INTO player_game(player_game_id, player_role, visa_change, outcome, player_id, game_id)
+    VALUES(14,'ROLE OF THE PLAYER','VISA DATE CHANGE','SURVIVED',9,15);
+END;
+
+CREATE TRIGGER diff_level
+    AFTER UPDATE
+    ON game
+    FOR EACH ROW
+BEGIN
+    INSERT INTO game(game_id, game_master_id, objective, card_type, difficulty, player_count, survivor_count, game_date)
+    VALUES(12,null,'objective of the player','card type','1/5','250','4','4/4/2020');
+END;
+
+CREATE INDEX idx_playergameinfo
+    ON player_game(player_id, game_id);
+
+CREATE INDEX idx_playerdeath
+    ON death_log(player_id,death_reason);
+
+CREATE INDEX idx_gamedate
+    ON game(game_date);
+
+
+CREATE VIEW vw_game_overview AS
+SELECT
+    game.game_id,
+    game.objective,
+    game.card_type,
+    game.difficulty,
+    game.player_count,
+    game.survivor_count,
+    location.location_name,
+    location.location_type,
+    game_master.master_role,
+    player.player_name AS game_master_name
+FROM
+    game game
+        JOIN location ON game.game_id = location.game_id
+        LEFT JOIN game_master ON game.game_id = game_master.game_id
+        LEFT JOIN player ON game_master.player_id = player.player_id;
