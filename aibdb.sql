@@ -22,7 +22,6 @@ DROP TABLE IF EXISTS game_master;
 CREATE TABLE game_master
 (
     game_master_id     INTEGER PRIMARY KEY,
-    -- game_id            INTEGER,
     master_role        VARCHAR(255),
     player_id          INTEGER
 );
@@ -37,7 +36,6 @@ CREATE TABLE game
     difficulty      VARCHAR(255),
     player_count    INTEGER,
     survivor_count  INTEGER
-    -- game_date     DATE,  -- commented out for now
 );
 
 DROP TABLE IF EXISTS location;
@@ -93,7 +91,6 @@ CREATE TABLE injury_log
 
 /** ADD FK'S INTO TABLES */
 ALTER TABLE game_master
-    -- ADD FOREIGN KEY (game_id) REFERENCES game (game_id),
     ADD FOREIGN KEY (player_id) REFERENCES player (player_id)
     ON DELETE CASCADE;
 
@@ -155,31 +152,6 @@ VALUES
         (25, 'Akamaki Urumi', 33, 'Female', 'Unknown'),
         (26, 'Usagi Yuzuha', 24, 'Female', 'Mountain Climber');
 
-
-/** OLD :
-INSERT INTO game_master (game_master_id, game_id, master_role, player_id)
-VALUES
-(1, 9, 'King of Clubs', 6),
-(2, 10, 'Jack of Hearts', 5),
-(3, 12, 'Queen of Spades', 16),
-(4, 13, 'King of Diamonds', 9),
-(5, 14, 'Queen of Clubs', NULL),
-(6, 16, 'King of Spades', NULL),
-(7, 17, 'Queen of Hearts', 11),
-(8, 1, 'Three of Clubs', NULL),
-(9, 2, 'Five of Spades', NULL),
-(10, 3, 'Seven of Hearts', NULL),
-(11, 4, 'Four of Clubs', NULL),
-(12, 5, 'Four of Diamonds', Null),
-(13, 6, 'Ten of Clubs', NULL),
-(14, 15, 'Jack of Spades', 5),
-(15, 8, 'Ten of Hearts', NULL),
-(16, 7, 'Six of Spades', NULL),
-(17, 11, 'Seven of Spades', NULL);
-
-P.S: game_master MUST NEED TO BE CREATED FIRST SINCE game WILL RECEIVE IT'S KEY
-*/
-
 INSERT INTO game_master (game_master_id, master_role, player_id)
 VALUES
 (1,'King of Clubs', 6),
@@ -200,7 +172,6 @@ VALUES
 (16,'Six of Spades', NULL),
 (17,'Seven of Spades', NULL);
 
--- OLD: INSERT INTO game (game_id, game_master_id, objective, card_type, difficulty, player_count, survivor_count, game_date)
 INSERT INTO game (game_id, game_master_id, objective, card_type, difficulty, player_count, survivor_count)
 VALUES
  (1, NULL,
@@ -254,7 +225,6 @@ VALUES
 (17, 11,
      'Should the players play 3 sets of croquet according to regulations through to completion, it’s Game Clear. If the players retire, it’s Game Over.',
      'Queen of Hearts', 'HIGH DIFFICULTY', 3, 2); -- '2020-10-29'
-
 
 INSERT INTO location (location_id, location_name, location_type, time_limit, hazard, game_id)
 VALUES
@@ -339,9 +309,6 @@ VALUES
 (60, 'Survive against the King of Spades', 10, 'Survived', 26, 14),
 (61, 'Play Croquet and try not to be lead astray by the Queen of Hearts', 10, 'Survived', 26, 15);
 
-
-
-
 INSERT INTO player_status (status_id, injury, death, game_id, player_id)
 VALUES
 (1, 1, 0, 11, 1),
@@ -373,7 +340,7 @@ VALUES
 (27, 0, 1, 16, 14),
 (28, 0, 0, 2, 15),
 (29, 0, 1, 14, 16),
-(30, 0, 0, 5, 17), 
+(30, 0, 0, 5, 17),
 (31, 1, 0, 8, 17),
 (32, 0, 0, 14, 17),
 (33, 0, 0, 16, 17),
@@ -409,9 +376,6 @@ VALUES
 (63, 0, 0, 14, 26),
 (64, 0, 0, 16, 26),
 (65, 0, 0, 17, 26);
--- If we end up not needing game_id here it will be easy to remove
-
-
 
 INSERT INTO death_log (death_log_id, death_reason, game_id, player_id)
 VALUES
@@ -428,15 +392,6 @@ VALUES
 (12, 'Killed by being defeated in croquette', 17, 11),
 (13, 'Killed through self-sacrifce', 16, 12);
 
-/** CHECK IT LATER */
--- (13, 'Killed by Explosive Collar', 20),
--- (14, 'Killed by Aguni Morizono', 25),
--- (15, 'Killed by Laser', 14),
--- (16, 'Killed by Fire', 24),
--- (17, 'Killed by Explosive Collar after guessing her suit incorrectly', 26),
--- (18, 'Killed by Laser', 17);
-
-
 INSERT INTO injury_log (injury_id, game_id, injury_type, severity, player_id)
 VALUES
 (1, 11, 'Gunshot Wound', 'Severe', 1),
@@ -448,14 +403,33 @@ VALUES
 (7, NULL, 'Gunshot Wound', 'HIGH SEVERITY', 21), /*THE INJURY IS NOT IN A GAME - DID NOT RECORD IN PLAYER_STATUS TABLE*/
 (8, NULL, 'Gunshot Wound', 'HIGH SEVERITY', 22); /*THE INJURY IS NOT IN A GAME - DID NOT RECORD IN PLAYER_STATUS TABLE*/
 
+/* CALL STORED PROCEDURE*/
+CALL LocationByGame(1, 1);
+CALL LocationByGame(2, 2);
+CALL LocationByGame(3, 3);
+CALL LocationByGame(4, 4);
+CALL LocationByGame(5, 5);
+CALL LocationByGame(6, 6);
+CALL LocationByGame(7, 7);
+CALL LocationByGame(8, 8);
+CALL LocationByGame(9, 9);
+CALL LocationByGame(10, 10);
+CALL LocationByGame(11, 11);
+CALL LocationByGame(12, 12);
+CALL LocationByGame(13, 13);
+CALL LocationByGame(14, 14);
+CALL LocationByGame(15, 15);
+CALL LocationByGame(16, 16);
+CALL LocationByGame(17, 17);
+
 /** TRIGGERS AND VIEWS */
 CREATE TRIGGER death_trigger
     AFTER UPDATE
     ON death_log
     FOR EACH ROW
 BEGIN
-    INSERT INTO death_log (death_reason, "date", player_id)
-    VALUES('REASON FOR DEATH','20/10/2024',7);
+    INSERT INTO death_log (death_reason, player_id)
+    VALUES('REASON FOR DEATH',7);
 END;
 
 CREATE TRIGGER visa_trigger
@@ -472,8 +446,8 @@ CREATE TRIGGER diff_level
     ON game
     FOR EACH ROW
 BEGIN
-    INSERT INTO game(game_id, game_master_id, objective, card_type, difficulty, player_count, survivor_count, game_date)
-    VALUES(12,null,'objective of the player','card type','1/5','250','4','4/4/2020');
+    INSERT INTO game(game_id, game_master_id, objective, card_type, difficulty, player_count, survivor_count)
+    VALUES(12,null,'objective of the player','card type','1/5','250','4');
 END;
 
 CREATE INDEX idx_playergameinfo
@@ -481,10 +455,6 @@ CREATE INDEX idx_playergameinfo
 
 CREATE INDEX idx_playerdeath
     ON death_log(player_id,death_reason);
-
-CREATE INDEX idx_gamedate
-    ON game(game_date);
-
 
 CREATE VIEW vw_game_overview AS
 SELECT
@@ -501,5 +471,20 @@ SELECT
 FROM
     game game
         JOIN location ON game.game_id = location.game_id
-        LEFT JOIN game_master ON game.game_id = game_master.game_id
+        LEFT JOIN game_master ON game.game_id = game_master.game_master_id
         LEFT JOIN player ON game_master.player_id = player.player_id;
+
+
+/** STORED PROCEDURE **/
+DELIMITER $$
+
+CREATE PROCEDURE LocationByGame(
+    IN loc_id INT,
+    IN game_id INT
+)
+BEGIN
+    INSERT INTO game_location (game_id, location_id)
+    VALUES (game_id, loc_id);
+END $$
+
+DELIMITER ;
