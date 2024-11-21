@@ -7,12 +7,6 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class BaseDAO {
-    private static final Dotenv dotenv = Dotenv.load();
-
-    private final String jdbUrl = dotenv.get("DB_URL");
-    private final String dbUser = dotenv.get("DB_USERNAME");
-    private final String dbPassword = dotenv.get("DB_PASSWORD");
-
     /**
      * STARTS THE CONNECTION
      */
@@ -21,11 +15,9 @@ public class BaseDAO {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
 
-            if (jdbUrl == null || dbUser == null || dbPassword == null) {
-                throw new IllegalStateException("Database credentials are not set. Check your .env configuration.");
-            }
+            /** SET PASSWORD HERE */
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/alice_in_borderland", "root", "");
 
-            conn = DriverManager.getConnection(jdbUrl, dbUser, dbPassword);
             System.out.println("Database connection established successfully.");
         } catch (ClassNotFoundException e) {
             System.err.println("MySQL JDBC Driver not found. Include it in your library path.");
