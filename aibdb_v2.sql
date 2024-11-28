@@ -405,6 +405,12 @@ VALUES
 (8, NULL, 'Gunshot Wound', 'HIGH SEVERITY', 22); /*THE INJURY IS NOT IN A GAME - DID NOT RECORD IN PLAYER_STATUS TABLE*/
 
 /** JOIN QUERIES */
+select * from game order by game_master_id desc;
+select * from death_log;
+select * from player;
+select * from game_master;
+select * from injury_log;
+
 SELECT g.objective AS "Game Objective",	g.card_type AS "Card Game Type", g.difficulty AS "Game Difficulty",	g.player_count AS "Player Count", p.player_name AS "Player Name", p.player_age AS "Age",
 	p.player_gender AS "Gender",p.player_occupation AS "Player Occupation",
 	CASE WHEN gm.game_master_id IS NOT NULL THEN 'Game Master' ELSE '' END AS "Role",
@@ -431,7 +437,7 @@ UPDATE game SET	game_master_id =
 	END
 WHERE game_id IN(12, 17);
 
-/** DELETE/TRANSACTION STATEMENTS */
+/** DELETE STATEMENTS */
 BEGIN;
 
 DELETE FROM player_game WHERE player_id = 26 AND game_id IN(2,4,6,8,9,11,14,15);
@@ -528,3 +534,58 @@ DELIMITER ;
 CALL LocationByGame(13, 13);
 CALL LocationByGame(9, 9);
 
+/**
+ *  DATABASE ADMINISTRATION
+ */
+
+-- Profiles
+CREATE USER 'admin'@'localhost' IDENTIFIED BY 'password_here';
+CREATE USER 'manager'@'localhost' IDENTIFIED BY 'password_here';
+CREATE USER 'visitor'@'localhost' IDENTIFIED BY 'password_here';
+
+/** Permissions */
+
+-- Full permissions for admin
+GRANT ALL PRIVILEGES ON alice_in_borderland.* TO 'admin'@'localhost';
+
+-- Limited permissions for manager
+GRANT SELECT, INSERT, UPDATE, DELETE ON alice_in_borderland.player TO 'Fae'@'localhost';
+GRANT SELECT ON alice_in_borderland.vw_game_overview TO 'Fae'@'localhost';
+
+-- Read-only permissions for visitor
+GRANT SELECT ON alice_in_borderland.vw_game_overview TO 'Iker'@'localhost';
+
+-- Applying all changes
+FLUSH PRIVILEGES;
+
+-- Creating multiple roles and actions
+CREATE USER 'admin1'@'localhost' IDENTIFIED BY 'password_here';
+CREATE USER 'admin2'@'localhost' IDENTIFIED BY 'password_here';
+CREATE USER 'admin3'@'localhost' IDENTIFIED BY 'password_here';
+
+GRANT ALL PRIVILEGES ON alice_in_borderland.* TO 'Ikram'@'localhost';
+GRANT ALL PRIVILEGES ON alice_in_borderland.* TO 'Jose'@'localhost';
+GRANT ALL PRIVILEGES ON alice_in_borderland.* TO 'Sofia'@'localhost';
+
+-- Change permissions
+REVOKE ALL PRIVILEGES ON alice_in_borderland.* FROM 'admin3'@'localhost';
+
+-- New role permission
+GRANT SELECT, INSERT, UPDATE, DELETE ON alice_in_borderland.player TO 'admin3'@'localhost';
+GRANT SELECT ON alice_in_borderland.vw_game_overview TO 'admin3'@'localhost';
+GRANT SELECT ON alice_in_borderland.vw_game_overview TO 'admin3'@'localhost';
+
+-- Apply Changes after this
+FLUSH PRIVILEGES;
+
+-- Delete a user account
+DROP USER 'admin3'@'localhost';
+
+/** Profiles */
+/*
+	Ikram	- Algeria
+	Jose - Brazil
+	Iker - Panama
+	Sofia - Ireland
+	Fae - Korea
+*/
